@@ -139,7 +139,7 @@ local keybindHandler = {}
 local textBoxHandler = {}
 local colorWheelHandler = {}
 
-local Library.originalElements = {}
+local originalElements = {}
 -- Add Tween Dictonary with format Tweens.ElementType.TweenName to ignore repetitive variables
 
 elementHandler.__index = elementHandler
@@ -1900,20 +1900,20 @@ local function createOriginialElements()
 		return colorWheel
 	end
 	
-	Library.originalElements.Window = createWindow()
-	Library.originalElements.Tab = createTab()	
-	Library.originalElements.Page = createPage()	
-	Library.originalElements.Section = createSection()
-	Library.originalElements.Title = createTitle()
-	Library.originalElements.Label = createLabel()
-	Library.originalElements.Toggle = createToggle()
-	Library.originalElements.Button = createButton()
-	Library.originalElements.Dropdown = createDropdown()
-	Library.originalElements.Slider = createSlider()
-	Library.originalElements.SearchBar = createSearchBar()
-	Library.originalElements.Keybind = createKeybind()
-	Library.originalElements.TextBox = createTextBox()
-	Library.originalElements.ColorWheel = createColorWheel()
+	originalElements.Window = createWindow()
+	originalElements.Tab = createTab()	
+	originalElements.Page = createPage()	
+	originalElements.Section = createSection()
+	originalElements.Title = createTitle()
+	originalElements.Label = createLabel()
+	originalElements.Toggle = createToggle()
+	originalElements.Button = createButton()
+	originalElements.Dropdown = createDropdown()
+	originalElements.Slider = createSlider()
+	originalElements.SearchBar = createSearchBar()
+	originalElements.Keybind = createKeybind()
+	originalElements.TextBox = createTextBox()
+	originalElements.ColorWheel = createColorWheel()
 end
 
 function elementHandler:Remove()
@@ -1924,7 +1924,7 @@ end
 --Add var to only have one window open at a time allowed
 function Library.new(windowName: string, constrainToScreen: boolean?): table
 	local window = setmetatable({}, windowHandler) -- remove elementhandler from window hanlers index?
-	local windowInstance = Library.originalElements.Window:Clone()
+	local windowInstance = originalElements.Window:Clone()
 	local startDragMousePos
 	local startDragWindowPos
 	local originialWindowSize
@@ -1972,7 +1972,7 @@ function Library.new(windowName: string, constrainToScreen: boolean?): table
             task.wait()
 			windowInstance:Destroy() -- add cool tween cause cool
             window = nil
-			getrenv().WindowClosed == true
+			getrenv().WindowClosed = true
         end)
         closeWindowTween:Play()
 	end
@@ -2072,8 +2072,8 @@ end
 
 function windowHandler:Tab(tabName: string, tabImage: string): table
 	local tab = setmetatable({}, tabHandler)
-	local tabInstance = Library.originalElements.Tab:Clone()
-	local pageInstance = Library.originalElements.Page:Clone()
+	local tabInstance = originalElements.Tab:Clone()
+	local pageInstance = originalElements.Page:Clone()
 	
 	local tabOpenTween = TweenService:Create(tabInstance, TweenInfo.new(.25, Enum.EasingStyle.Linear), {BackgroundTransparency = .25})
 	local tabCloseTween = TweenService:Create(tabInstance, TweenInfo.new(.25, Enum.EasingStyle.Linear), {BackgroundTransparency = 1})
@@ -2231,7 +2231,7 @@ end
 
 function tabHandler:Section(sectionTitle: string) -- Add option to make on left or right after
 	local section = setmetatable({}, sectionHandler)
-	local sectionInstance = Library.originalElements.Section:Clone()
+	local sectionInstance = originalElements.Section:Clone()
 	local isMaximized = true
 	local resizeButtonMinimizeTween = TweenService:Create(sectionInstance.Heading.ResizeButton, TweenInfo.new(.15, Enum.EasingStyle.Linear), {Rotation = 180})
 	local resizeButtonMaximizeTween = TweenService:Create(sectionInstance.Heading.ResizeButton, TweenInfo.new(.15, Enum.EasingStyle.Linear), {Rotation = 0})
@@ -2293,7 +2293,7 @@ end
 
 function elementHandler:Title(titleName: string)
 	local title = setmetatable({}, titleHandler)
-	local titleInstance = Library.originalElements.Title:Clone()
+	local titleInstance = originalElements.Title:Clone()
 
 	local textSpaceOffset = Vector2.new(10,0)
 	local textParams = Instance.new("GetTextBoundsParams")
@@ -2337,7 +2337,7 @@ end
 
 function elementHandler:Label(labelInputtedText: string, textSize: number, textColor: Color3): table
 	local label = setmetatable({}, labelHandler)
-	local labelInstance = Library.originalElements.Label:Clone()
+	local labelInstance = originalElements.Label:Clone()
 	
 	local textParams = Instance.new("GetTextBoundsParams")
 	textParams.Text = labelInputtedText or "N/A"
@@ -2401,7 +2401,7 @@ end
 
 function elementHandler:Toggle(toggleName: string, callback): table
 	local toggle = setmetatable({}, toggleHandler)
-	local toggleInstance = Library.originalElements.Toggle:Clone()
+	local toggleInstance = originalElements.Toggle:Clone()
 	local textOffset = 4
 	
 	local tweenTime = .275
@@ -2480,7 +2480,7 @@ end
 
 function elementHandler:Button(buttonName: string, callback): table -- Add Callback to self?
 	local button = setmetatable({}, buttonHandler)
-	local buttonInstance = Library.originalElements.Button:Clone()
+	local buttonInstance = originalElements.Button:Clone()
 	local textOffset = 4
 	
 	local tweenTime = .25
@@ -2522,7 +2522,7 @@ end
 
 function elementHandler:Dropdown(dropdownName: string): table
 	local dropdown = setmetatable({}, dropdownHandler)
-	local dropdownInstance = Library.originalElements.Dropdown:Clone()
+	local dropdownInstance = originalElements.Dropdown:Clone()
 	local elementHolderInnerBackground = dropdownInstance.ElementHolder.ElementHolderBackground.ElementHolderInnerBackground
 	local elementHolderInnerBackgroundPaddings = dropdownInstance.ElementHolder.ElementHolderPadding.PaddingBottom.Offset + dropdownInstance.ElementHolder.ElementHolderPadding.PaddingTop.Offset + dropdownInstance.ElementHolder.ElementHolderBackground.ElementHolderBackgroundPadding.PaddingBottom.Offset + dropdownInstance.ElementHolder.ElementHolderBackground.ElementHolderBackgroundPadding.PaddingTop.Offset + elementHolderInnerBackground.ElementHolderInnerBackgroundPadding.PaddingBottom.Offset + elementHolderInnerBackground.ElementHolderInnerBackgroundPadding.PaddingTop.Offset
 	
@@ -2592,7 +2592,7 @@ end
 
 function elementHandler:Slider(sliderName: string, callback, maximumValue: number, minimumValue: number, roundValue: number, defaultValue: number): table
 	local slider = setmetatable({}, sliderHandler) -- MAKE RIGHT CLICK AND BAR GOES TO MID
-	local sliderInstance = Library.originalElements.Slider:Clone()
+	local sliderInstance = originalElements.Slider:Clone()
 	local isMouseDown = false
 	local sliderBar = sliderInstance.SliderBackground.SliderInnerBackground.Slider
 	local minimumClosePixelsLeft = 2
@@ -2702,7 +2702,7 @@ end
 
 function elementHandler:SearchBar(placeholderText: string): table
 	local searchBar = setmetatable({}, searchBarHandler)
-	local searchBarInstance = Library.originalElements.SearchBar:Clone()
+	local searchBarInstance = originalElements.SearchBar:Clone()
 	local searchBox = searchBarInstance.SearchBarFrame.ButtonBackgroundPadding.SearchBox
 	local elementHolder = searchBarInstance.ElementHolder
     local elementHolderBackground = elementHolder.ElementHolderBackground
@@ -2858,7 +2858,7 @@ end
 -- ADD RIGHT CLICK TO REMOVE CURRENT KEYBIND TO NOTHING
 function elementHandler:Keybind(keybindName: string, callback, defaultKey: string): table
 	local keybind = setmetatable({}, keybindHandler)
-	local keybindInstance = Library.originalElements.Keybind:Clone()
+	local keybindInstance = originalElements.Keybind:Clone()
 	local sideClosedTextPaddingPixels = 1
 	local keybindTextPadding = 4
 	local isOverriding = false
@@ -2972,7 +2972,7 @@ end
 
 function elementHandler:TextBox(textBoxName:string, callback): table
 	local textBox = setmetatable({}, textBoxHandler)
-	local textBoxInstance = Library.originalElements.TextBox:Clone()
+	local textBoxInstance = originalElements.TextBox:Clone()
 	local placeholderText = "Type here..."
 	local sidePlaceholderTextPadding = 2
 	local textAnimation
@@ -3046,7 +3046,7 @@ end
 --Fix toggle img it's imported as orange make it white
 function elementHandler:ColorWheel(colorWheelName: string, callback): table
 	local colorWheel = setmetatable({}, colorWheelHandler)
-	local colorWheelInstance = Library.originalElements.ColorWheel:Clone()
+	local colorWheelInstance = originalElements.ColorWheel:Clone()
 	
 	local heading = colorWheelInstance.Heading
 	local wheelHolder = colorWheelInstance.WheelHolder
